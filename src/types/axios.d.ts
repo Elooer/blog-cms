@@ -40,6 +40,15 @@ interface PageInfo {
   total: number
 }
 
+interface ArticleParams {
+  _id?: string
+  title: string
+  describe: string
+  tag: string
+  content: string
+  img: string
+}
+
 type RecordListItem = {
   _id: string
   title: string
