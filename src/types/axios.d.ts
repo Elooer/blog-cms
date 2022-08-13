@@ -72,6 +72,8 @@ interface CommentsRes {
   username: string
   avatar: string
   comments: string
+  ip: string
+  location: string
   response: {
     _id: string
     pubTime: string
@@ -86,3 +88,10 @@ interface MessageParams {
   userinfo: string | null
   comments: string
 }
+
+type UserList = {
+  username: string
+  role: 'user' | 'admin'
+  createdTime: string
+  status: number
+}[]

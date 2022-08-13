@@ -34,3 +34,9 @@ export const getCommentList = (data: {
 
 export const addResponse = (data: MessageParams): PromiseRef =>
   axios.post('/message/addResponse', data)
+
+export const getUserList = (data: { page: number }): PromiseRef<UserList> =>
+  axios.post('/userinfo/getUserList', data)
+
+export const getUserPageInfo = (data: { page: number }): PromiseRef<PageInfo> =>
+  axios.post('/userinfo/getUserPageInfo', data)
