@@ -29,8 +29,16 @@ export const addComment = (data: {
 
 export const getCommentList = (data: {
   count: number
+  flag: boolean
 }): PromiseRef<{ total: number; list: CommentsRes[] }> =>
   axios.post('/message/getCommentList', data)
+
+export const deleteMessage = (data: { _id: string }): PromiseRef =>
+  axios.post('/message/deleteMessage', data)
+
+export const getMessagePageInfo = (data: {
+  page: number
+}): PromiseRef<PageInfo> => axios.post('/message/getMessagePageInfo', data)
 
 export const addResponse = (data: MessageParams): PromiseRef =>
   axios.post('/message/addResponse', data)
