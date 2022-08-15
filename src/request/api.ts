@@ -1,3 +1,4 @@
+import router from '../router'
 import axios from './request'
 
 export const loginApi = (data: LoginFormItf): PromiseRef<LoginRes> =>
@@ -15,6 +16,9 @@ export const getPageInfo = (data: { page: number }): PromiseRef<PageInfo> =>
 
 export const addArticle = (data: ArticleParams): PromiseRef =>
   axios.post('/article/addArticle', data)
+
+export const deleteArticle = (data: { _id: string }): PromiseRef =>
+  axios.post('/article/deleteArticle', data)
 
 export const updateArticle = (data: ArticleParams): PromiseRef =>
   axios.post('/article/updateArticle', data)

@@ -41,23 +41,20 @@ const state = reactive<{ id: string; article: ArticleItf }>({
   }
 })
 
-const { id, article } = toRefs(state)
+let { id, article } = toRefs(state)
 
 const router = useRouter()
-onMounted(() => {
-  if (router.currentRoute.value.query.id) {
-    id.value = router.currentRoute.value.query.id as string
-    getArticleById({ _id: id.value }).then(res => {
-      if (res.status === 200) {
-        article.value = res.data as ArticleItf
-      }
-    })
-  }
-
-})
+if (router.currentRoute.value.query.id) {
+  id.value = router.currentRoute.value.query.id as string
+  getArticleById({ _id: id.value }).then(res => {
+    if (res.status === 200) {
+      article.value = res.data as ArticleItf
+    }
+  })
+}
 
 const pubArticle = () => {
-  if (id.value) {
+  if (id.value !== '') {
     updateArticle({
       _id: id.value,
       title: article.value.title,
@@ -68,6 +65,8 @@ const pubArticle = () => {
     }).then(res => {
       if (res.status === 200) {
         ctx?.appContext.config.globalProperties.$message.success(res.message)
+      } else {
+        ctx?.appContext.config.globalProperties.$message.error('更新文章失败！')
       }
     })
   } else {
@@ -80,6 +79,8 @@ const pubArticle = () => {
     }).then(res => {
       if (res.status === 200) {
         ctx?.appContext.config.globalProperties.$message.success(res.message)
+      } else {
+        ctx?.appContext.config.globalProperties.$message.error('发布文章失败！')
       }
     })
   }

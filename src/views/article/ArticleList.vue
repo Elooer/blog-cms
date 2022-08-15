@@ -23,7 +23,7 @@
       <el-table-column header-align="center" align="center" label="操作">
         <template v-slot:default="{ row }">
           <el-button type="primary" @click="editArticle(row._id)">编辑</el-button>
-          <el-button type="danger" @click="deleteArticle(row._id)">删除</el-button>
+          <el-button type="danger" @click="deleteOne(row._id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -32,8 +32,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue'
-import { getArticleList, getPageInfo } from '../../request/api'
+import { reactive, getCurrentInstance, toRefs } from 'vue'
+import { getArticleList, getPageInfo, deleteArticle } from '../../request/api'
 import userTimeFormat from '../../hooks/useTimeFormat'
 import { useRouter } from 'vue-router'
 
@@ -51,7 +51,7 @@ getPageInfo({ page: 1 }).then(res => {
   }
   getArticleList({ page: page.value }).then(res => {
     if (res.status !== 200) {
-      return console.log('获取文章列表出错！');
+      return ctx?.appContext.config.globalProperties.$message.error(res.message)
     }
     res.data && (articleList.value = res.data)
   })
@@ -66,7 +66,7 @@ const changePage = (newPage: number) => {
     }
     getArticleList({ page: page.value }).then(res => {
       if (res.status !== 200) {
-        return console.log('获取文章列表出错！');
+        return ctx?.appContext.config.globalProperties.$message.error(res.message)
       }
       res.data && (articleList.value = res.data)
     })
@@ -78,10 +78,17 @@ const editArticle = (_id: string) => {
   router.push(`/editArticle/?id=${_id}`)
 }
 
-const deleteArticle = (_id: string) => {
-
+const deleteOne = (_id: string) => {
+  deleteArticle({ _id }).then(res => {
+    if (res.status === 200) {
+      ctx?.appContext.config.globalProperties.$message.success(res.message)
+    } else {
+      ctx?.appContext.config.globalProperties.$message.error(res.message)
+    }
+  })
 }
 
+const ctx = getCurrentInstance()
 </script>
 <style lang="less" scoped>
 .container {
