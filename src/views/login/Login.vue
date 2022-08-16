@@ -54,6 +54,8 @@ const login = () => {
         setTimeout(() => {
           router.push('/index')
         }, 1000)
+      } else {
+        ctx?.appContext.config.globalProperties.$message.error('登录失败！')
       }
     })
   }).catch((err: Error) => console.log('err' + err))

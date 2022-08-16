@@ -45,11 +45,15 @@ const getCommentAll = () => {
     if (res.status === 200) {
       page.value = res.data?.current as number
       total.value = res.data?.total as number
+    } else {
+      ctx?.appContext.config.globalProperties.$message.error('获取分页信息出错！')
     }
     getCommentList({ count: page.value, flag: true }).then(res => {
       if (res.status === 200) {
         commentList.value = res.data?.list as CommentsRes[]
         total.value = res.data?.total as number
+      } else {
+        ctx?.appContext.config.globalProperties.$message.error('获取留言列表出错！')
       }
     })
   })
@@ -62,11 +66,15 @@ const changePage = (newPage: number) => {
     if (res.status === 200) {
       page.value = res.data?.current as number
       total.value = res.data?.total as number
+    } else {
+      ctx?.appContext.config.globalProperties.$message.error('获取分页信息出错！')
     }
     getCommentList({ count: page.value, flag: true }).then(res => {
       if (res.status === 200) {
         commentList.value = res.data?.list as CommentsRes[]
         total.value = res.data?.total as number
+      } else {
+        ctx?.appContext.config.globalProperties.$message.error('获取留言列表出错！')
       }
     })
   })
@@ -77,6 +85,8 @@ const deleteComment = (_id: string) => {
     if (res.status === 200) {
       ctx?.appContext.config.globalProperties.$message.success(res.message)
       getCommentAll()
+    } else {
+      ctx?.appContext.config.globalProperties.$message.error('删除留言失败！')
     }
   })
 }

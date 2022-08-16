@@ -35,7 +35,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue'
+import { getCurrentInstance, reactive, ref, toRefs } from 'vue'
 import { getUserList, getUserPageInfo } from '../../request/api'
 import userTimeFormat from '../../hooks/useTimeFormat'
 
@@ -46,6 +46,7 @@ const state = reactive<{ userList: UserList; page: number; total: number }>({
 })
 
 let { userList, page, total } = toRefs(state)
+const ctx = getCurrentInstance()
 
 getUserPageInfo({ page: 1 }).then(res => {
   if (res.status === 200) {
@@ -54,14 +55,13 @@ getUserPageInfo({ page: 1 }).then(res => {
   }
   getUserList({ page: page.value }).then(res => {
     if (res.status !== 200) {
-      return console.log('获取文章列表出错！');
+      return ctx?.appContext.config.globalProperties.$message.error('获取文章列表出错！');
     }
     res.data && (userList.value = res.data)
   })
 })
 
 const changePage = (newPage: number) => {
-  console.log(newPage)
   getUserPageInfo({ page: newPage }).then(res => {
     if (res.status === 200) {
       page.value = res.data?.current as number
@@ -69,7 +69,7 @@ const changePage = (newPage: number) => {
     }
     getUserList({ page: page.value }).then(res => {
       if (res.status !== 200) {
-        return console.log('获取文章列表出错！');
+        return ctx?.appContext.config.globalProperties.$message.error('获取文章列表出错！');
       }
       res.data && (userList.value = res.data)
     })

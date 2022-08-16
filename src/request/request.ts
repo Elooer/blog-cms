@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { ElMessage } from 'element-plus'
 
 const instance = axios.create({
   baseURL: 'http://127.0.0.1:3006',
@@ -27,6 +28,11 @@ instance.interceptors.response.use(
     return result.data
   },
   err => {
+    if (err.response.status == 401) {
+      localStorage.removeItem('blog_token')
+      ElMessage({ message: '登录过期，请重新登录！', type: 'error' })
+      location.reload()
+    }
     return Promise.reject(err)
   }
 )

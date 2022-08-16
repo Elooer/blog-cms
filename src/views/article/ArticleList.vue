@@ -66,7 +66,7 @@ const changePage = (newPage: number) => {
     }
     getArticleList({ page: page.value }).then(res => {
       if (res.status !== 200) {
-        return ctx?.appContext.config.globalProperties.$message.error(res.message)
+        return ctx?.appContext.config.globalProperties.$message.error('获取文章列表失败！')
       }
       res.data && (articleList.value = res.data)
     })
@@ -83,7 +83,7 @@ const deleteOne = (_id: string) => {
     if (res.status === 200) {
       ctx?.appContext.config.globalProperties.$message.success(res.message)
     } else {
-      ctx?.appContext.config.globalProperties.$message.error(res.message)
+      ctx?.appContext.config.globalProperties.$message.error('删除文章失败！')
     }
   })
 }
