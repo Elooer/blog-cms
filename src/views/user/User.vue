@@ -15,7 +15,7 @@
       </el-table-column>
       <el-table-column header-align="center" align="center" label="是否禁用">
         <template v-slot:default="scope">
-          <el-tag size="large" type="danger" v-if="!scope.row.status">是</el-tag>
+          <el-tag size="large" type="danger" v-if="scope.row.status">是</el-tag>
           <el-tag size="large" v-else>否</el-tag>
         </template>
       </el-table-column>
@@ -55,7 +55,7 @@ getUserPageInfo({ page: 1 }).then(res => {
   }
   getUserList({ page: page.value }).then(res => {
     if (res.status !== 200) {
-      return ctx?.appContext.config.globalProperties.$message.error('获取文章列表出错！');
+      return ctx?.appContext.config.globalProperties.$message.error('获取用户列表出错！');
     }
     res.data && (userList.value = res.data)
   })
@@ -69,7 +69,7 @@ const changePage = (newPage: number) => {
     }
     getUserList({ page: page.value }).then(res => {
       if (res.status !== 200) {
-        return ctx?.appContext.config.globalProperties.$message.error('获取文章列表出错！');
+        return ctx?.appContext.config.globalProperties.$message.error('获取用户列表出错！');
       }
       res.data && (userList.value = res.data)
     })

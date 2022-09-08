@@ -39,8 +39,8 @@
     </div>
     <div class="right">
       <div class="header">
-        <div class="avatar">
-          <img src="https://avatars.githubusercontent.com/u/75289160?v=4" alt="">
+        <div class="avatar" @click="logout">
+          <img src="https://cdn.elooerblog.top/img/OIP-C.jfif" alt="">
         </div>
       </div>
       <div class="content_box">
@@ -51,9 +51,15 @@
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Document, ChatLineSquare, User } from '@element-plus/icons-vue'
 
-const a = ref()
+const router = useRouter()
+
+const logout = () => {
+  localStorage.removeItem('blog_token')
+  router.push('/login')
+}
 </script>
 <style lang="less" scoped>
 .index_container {
@@ -99,6 +105,7 @@ const a = ref()
         float: right;
         margin-top: 12px;
         margin-right: 50px;
+        cursor: pointer;
 
         img {
           width: 100%;
